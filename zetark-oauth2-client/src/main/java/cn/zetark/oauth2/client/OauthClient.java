@@ -34,23 +34,25 @@ public class OauthClient {
 	private static Response makeAuthCodeRequest() throws OAuthSystemException,
 			MalformedURLException, URISyntaxException {
 
-		OAuthClientRequest request = OAuthClientRequest
-				.authorizationLocation(ClientParams.OAUTH_SERVER_URL) // oauth2 认证授权地址
-				.setClientId(ClientParams.CLIENT_ID) // CLIENT_ID
-				.setRedirectURI(ClientParams.OAUTH_SERVER_REDIRECT_URI) // 回调地址
-				.setResponseType(ResponseType.CODE.toString()) // 返回类型值
-				.buildQueryMessage();
+//		OAuthClientRequest request = OAuthClientRequest
+//				.authorizationLocation(ClientParams.OAUTH_SERVER_URL) // oauth2 认证授权地址
+//				.setClientId(ClientParams.CLIENT_ID) // CLIENT_ID
+//				.setRedirectURI(ClientParams.OAUTH_SERVER_REDIRECT_URI) // 回调地址
+//				.setResponseType(ResponseType.CODE.toString()) // 返回类型值
+//				.buildQueryMessage();
+
+
 
         // 创建表单，模拟填充表单并提交表单
         Form form = new Form();
         form.param("username",ClientParams.USERNAME);
         form.param("password",ClientParams.PASSWORD);
         form.param("client_id",ClientParams.CLIENT_ID);
-        form.param("code",ResponseType.CODE.toString());
+        form.param("response_type",ResponseType.CODE.toString());
         form.param("redirect_uri",ClientParams.OAUTH_SERVER_REDIRECT_URI);
 
         ResteasyClient client = new ResteasyClientBuilder().build();
-        Response response = client.target(request.getLocationUri())
+        Response response = client.target(ClientParams.OAUTH_SERVER_URL)
                 .request()
                 .post(Entity.form(form));
 		System.out.println(response.getStatus());
