@@ -25,7 +25,7 @@ import java.net.URISyntaxException;
 public class OauthClient {
 
     /**
-     * 获取授权码
+     * Make Authotization Request
      * @return
      * @throws OAuthSystemException
      * @throws MalformedURLException
@@ -35,15 +35,15 @@ public class OauthClient {
 			MalformedURLException, URISyntaxException {
 
 //		OAuthClientRequest request = OAuthClientRequest
-//				.authorizationLocation(ClientParams.OAUTH_SERVER_URL) // oauth2 认证授权地址
+//				.authorizationLocation(ClientParams.OAUTH_SERVER_URL) // oauth2 authorization URL 
 //				.setClientId(ClientParams.CLIENT_ID) // CLIENT_ID
-//				.setRedirectURI(ClientParams.OAUTH_SERVER_REDIRECT_URI) // 回调地址
-//				.setResponseType(ResponseType.CODE.toString()) // 返回类型值
+//				.setRedirectURI(ClientParams.OAUTH_SERVER_REDIRECT_URI) // callback URL
+//				.setResponseType(ResponseType.CODE.toString()) // response return type
 //				.buildQueryMessage();
 
 
 
-        // 创建表单，模拟填充表单并提交表单
+        // create form and simulate entering & submit the form
         Form form = new Form();
         form.param("username",ClientParams.USERNAME);
         form.param("password",ClientParams.PASSWORD);
@@ -76,7 +76,7 @@ public class OauthClient {
 	}
 
     /**
-     * 根据授权码获取accessToken
+     * Make Access Token Request With AuthCode
      * @param authCode
      * @return
      * @throws OAuthProblemException
@@ -106,7 +106,7 @@ public class OauthClient {
     }
 
     /**
-     * 测试开放接口服务
+     * Testing the service by providing accessToken
      */
     private static void getAuthedService(String accessToken){
         ResteasyClient client = new ResteasyClientBuilder().build();

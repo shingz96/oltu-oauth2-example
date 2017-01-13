@@ -2,6 +2,11 @@ package cn.zetark.oauth2.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.oltu.oauth2.common.message.types.ParameterStyle;
 import org.apache.oltu.oauth2.common.message.types.ResponseType;
 
 import javax.ws.rs.HttpMethod;
@@ -19,7 +24,7 @@ import java.util.Map;
 public class UrlClient {
 
     /**
-     * 获取授权码
+     * Get the Authorization code
      * @return
      */
     private static String getAuthCode() throws Exception{
@@ -51,14 +56,15 @@ public class UrlClient {
         connection.setRequestProperty("Content-Length", String.valueOf(postStrBytes.length));
         connection.getOutputStream().write(postStrBytes);
 
-        ((HttpURLConnection) connection).setInstanceFollowRedirects(false);// 必须设置该属性
+        ((HttpURLConnection) connection).setInstanceFollowRedirects(false);// Must set this property
         String location = connection.getHeaderField("Location");
         System.out.println(location);
         return location.substring(location.indexOf("=")+1);
     }
 
     /**
-     * 获取accessToken
+     * Get accessToken
+	 * @param authCode the authCode to get accessToken
      * @return
      */
     private static String getAccessToken(String authCode) throws Exception{
@@ -107,16 +113,19 @@ public class UrlClient {
 
 
     /**
-     * 获取accessToken
+     * Get service  
+	 * @param accessToken the accessToken to get service
      * @return
      */
     private static void getService(String accessToken) throws Exception{
 
         URL url = new URL(ClientParams.OAUTH_SERVICE_API+"?access_token="+accessToken);
+    	//URL url = new URL(ClientParams.OAUTH_SERVICE_API);
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
         connection.setRequestMethod(HttpMethod.GET);
-        connection.setDoInput(true);
-        connection.setDoOutput(true);
+
+//        connection.setDoInput(true);
+//        connection.setDoOutput(true);
 
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String inputLine;
